@@ -1,6 +1,10 @@
 import React, { useState } from "react"
 import { Grid, TextField, withStyles, FormControl, Select, InputLabel, MenuItem, Button, FormHelperText } from "@material-ui/core"
 import useForm from "./useForm"
+import { connect } from 'react-redux'
+import * as actions from "../actions/bug"
+
+
 
 const styles = theme => ({
     root: {
@@ -56,9 +60,8 @@ const BugForm = ({classes, ...props}) => {
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()) {
-            window.alert('Bug added')
+           props.createBug(values, () => {window.alert('Bug added')})
         }
-        console.log(values)
     }
 
 
@@ -131,4 +134,13 @@ const BugForm = ({classes, ...props}) => {
         )
 }
 
-export default withStyles(styles) (BugForm);
+const mapStateToProps = state => ({
+    bugList:state.bug.list
+})
+
+const mapActionToProps = {
+createBug : actions.create,
+updateBug : actions.update
+}
+
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles) (BugForm));

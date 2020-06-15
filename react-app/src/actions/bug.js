@@ -8,6 +8,8 @@ export const ACTION_TYPE = {
 }
 
 
+
+
 export const fetchAll = () =>  dispatch =>{
 
     api.bug().fetchAll()
@@ -23,6 +25,45 @@ export const fetchAll = () =>  dispatch =>{
     .catch(err => console.log(err))
 
 }
-    
+
+
+export const create = (data, onSuccess) => dispatch => {
+    api.bug().create(data)
+    .then (response => {
+        dispatch({
+            type:ACTION_TYPE.CREATE,
+            payload: response.data
+        })
+        onSuccess()
+    })
+    .catch(err => console.log(err))
+
+}
+
+export const update = (id, data, onSuccess) => dispatch => {
+    api.bug().update()
+    .then (response => {
+        dispatch({
+            type:ACTION_TYPE.UPDATE,
+            payload: {id, ...data}
+        })
+        onSuccess()
+    })
+    .catch(err => console.log(err))
+
+}
+
+export const Delete = (id, onSuccess) => dispatch => {
+    api.bug().delete(id)
+    .then (response => {
+        dispatch({
+            type:ACTION_TYPE.DELETE,
+            payload: {id}
+        })
+        onSuccess()
+    })
+    .catch(err => console.log(err))
+
+}
 
        
