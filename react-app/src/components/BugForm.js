@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Grid, TextField, withStyles, FormControl, Select, InputLabel, MenuItem } from "@material-ui/core"
+import { Grid, TextField, withStyles, FormControl, Select, InputLabel, MenuItem, Button, FormHelperText } from "@material-ui/core"
 import useForm from "./useForm"
 
 const styles = theme => ({
@@ -12,6 +12,9 @@ const styles = theme => ({
       formControl: {
         margin: theme.spacing(1),
         minWidth: 230,
+      },
+      smMargin: {
+        margin: theme.spacing(1),
       }
 })
 
@@ -23,17 +26,46 @@ const initialFieldValues = {
 }
 
 const BugForm = ({classes, ...props}) => {
+
+    const validate = (fieldValues = values) => {
+        let temp = {}
+        if('title' in fieldValues)
+        temp.title = fieldValues.title ? "":"This field is required"
+        if('priority' in fieldValues)
+        temp.priority = fieldValues.priority ? "":"This field is required"
+        if('summary' in fieldValues)
+        temp.summary = fieldValues.summary ? "":"This field is required"
+        setErrors({
+            ...temp
+        })
+
+        if(fieldValues == values) {
+
+        return Object.values(temp).every(x => x=="")
+    }
+    }
+
     const {
         values,
         setValues,
+       errors,
+       setErrors,
         handleInputChange
-    } = useForm(initialFieldValues)
+    } = useForm(initialFieldValues, validate)
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        if (validate()) {
+            window.alert('Bug added')
+        }
+        console.log(values)
+    }
 
 
 
     return (
         
-        <form autoComplete = "off" noValidate className = {classes.root} >
+        <form autoComplete = "off" noValidate className = {classes.root} onSubmit = {handleSubmit} >
 
             <Grid container>
 
@@ -43,13 +75,15 @@ const BugForm = ({classes, ...props}) => {
                     variant = "outlined"
                     label = "Title"
                     value = {values.title}
-                    onChange = {handleInputChange} />
+                    onChange = {handleInputChange}
+                    {...(errors.title && { error:true, helperText:errors.title})} />
 
                     <FormControl variant = "outlined" 
-                    className={classes.formControl}>
+                    className={classes.formControl}
+                    {...(errors.priority && { error:true})}>
                         <InputLabel>Priority</InputLabel>
                         <Select 
-                            name = "prority"
+                            name = "priority"
                             value = {values.priority}
                             onChange = {handleInputChange}>
                                 <MenuItem value = "">Select Prority</MenuItem>
@@ -59,6 +93,7 @@ const BugForm = ({classes, ...props}) => {
                                 <MenuItem value = "Minor">Minor</MenuItem>
                                 <MenuItem value = "Trivial">Trivial</MenuItem>
                             </Select>
+                            {errors.priority && <FormHelperText>{errors.priority}</FormHelperText>}
                     </FormControl>
 
                     <TextField
@@ -66,7 +101,25 @@ const BugForm = ({classes, ...props}) => {
                     variant = "outlined"
                     label = "Summary"
                     value = {values.summary}
-                    onChange = {handleInputChange} />
+                    onChange = {handleInputChange}
+                    {...(errors.summary && { error:true, helperText:errors.summary})} />
+
+                    <div>
+                        <Button
+                        variant = "contained"
+                        color = "primary"
+                        type = "submit"
+                        className={classes.smMargin}>
+                            Submit
+                        </Button>
+
+                        <Button
+                        variant = "contained"
+                        type = "rest"
+                        className={classes.smMargin}>
+                            Reset
+                        </Button>
+                    </div>
 
 
                 </Grid>
