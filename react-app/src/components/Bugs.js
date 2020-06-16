@@ -5,6 +5,7 @@ import { Grid, Paper, TableHead, TableCell, Table, TableContainer, TableRow, Tab
 import  BugForm  from "./BugForm"
 import EditIcon from "@material-ui/icons/Edit"
 import DeleteIcon from "@material-ui/icons/Delete"
+import { useToasts } from "react-toast-notifications"
 
 
 const styles = theme => ({
@@ -19,11 +20,17 @@ const Bugs = ({classes,...props}) => {
 
     const [currentId, setCurrentId] = useState(0)
 
- 
+    const { addToast } = useToasts()
+
     
      useEffect(() => {
          props.fetchAllBugs()
      },[])
+
+     const onDelete = id => {
+        //if(window.confirm('Are you sure you want to delete?'))
+        props.deleteBug(id, ()=>addToast("Bug Deleted", {appearance:'info'}))
+    }
 
     return ( <Paper className = {classes.paper}>
         <Grid container>
@@ -32,7 +39,7 @@ const Bugs = ({classes,...props}) => {
                 <BugForm {...({currentId, setCurrentId})}/>
                 </Grid>
                 <Grid item xs = {6}>
-                    <div> List of Bugs</div>
+                    <div>List of Bugs</div>
                     <TableContainer>
                         <Table>
                             <TableHead>
@@ -56,7 +63,8 @@ const Bugs = ({classes,...props}) => {
                                             <ButtonGroup varian="text">
                                                 <Button><EditIcon color = "primary" 
                                                 onClick={() => { setCurrentId (record.id)}}/></Button>
-                                                <Button><DeleteIcon color = "secondary" /></Button>
+                                                <Button><DeleteIcon color = "secondary"
+                                                onClick={() => { onDelete(record.id) }}/></Button>
                                             </ButtonGroup>
                                         </TableCell>
                                     </TableRow>)
@@ -81,7 +89,8 @@ const mapStateToProps = state => ({
 })
 
 const mapActionToProps = {
-    fetchAllBugs : actions.fetchAll
+    fetchAllBugs : actions.fetchAll,
+    deleteBug : actions.Delete
 }
 
 export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(Bugs));

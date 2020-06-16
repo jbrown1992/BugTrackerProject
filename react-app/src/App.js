@@ -11,7 +11,7 @@ function App() {
   return (
     <Provider store = {store}>
       <ToastProvider autoDismiss= {true}>
-      <Container maxWidth = "lg">
+      <Container maxWidth = "xl">
       <Bugs />
 
          </Container>

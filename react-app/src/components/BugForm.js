@@ -72,7 +72,7 @@ const BugForm = ({classes, ...props}) => {
            //props.createBug(values, () => {window.alert('Bug added')})
            props.createBug(values, onSuccess,addToast("Bug added", {appearance:'success'}))
            else
-           props.updateBug(props.currentId, values, onSuccess, addToast("Bug updated", {appearance:'success'}))
+           props.updateBug(props.currentId, values, onSuccess, addToast("Bug added", {appearance:'success'}))
         }
         
 
