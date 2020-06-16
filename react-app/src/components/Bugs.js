@@ -1,19 +1,23 @@
 import React, { useState, useEffect} from "react"
 import { connect } from "react-redux"
 import * as actions from "../actions/bug"
-import { Grid, Paper, TableHead, TableCell, Table, TableContainer, TableRow, TableBody, withStyles } from "@material-ui/core"
+import { Grid, Paper, TableHead, TableCell, Table, TableContainer, TableRow, TableBody, withStyles, Button, ButtonGroup } from "@material-ui/core"
 import  BugForm  from "./BugForm"
+import EditIcon from "@material-ui/icons/Edit"
+import DeleteIcon from "@material-ui/icons/Delete"
 
 
 const styles = theme => ({
     paper :{
-        margin: theme.spacing(2),
-        padding: theme.spacing(2)
+        margin: theme.spacing(1),
+        padding: theme.spacing(1)
     }
 })
 
 
 const Bugs = ({classes,...props}) => {
+
+    const [currentId, setCurrentId] = useState(0)
 
  
     
@@ -25,7 +29,7 @@ const Bugs = ({classes,...props}) => {
         <Grid container>
     
             <Grid item xs = {6}>
-                <BugForm />
+                <BugForm {...({currentId, setCurrentId})}/>
                 </Grid>
                 <Grid item xs = {6}>
                     <div> List of Bugs</div>
@@ -37,6 +41,7 @@ const Bugs = ({classes,...props}) => {
                                 <TableCell>Title</TableCell>
                                 <TableCell>Priority</TableCell>
                                 <TableCell>Summary</TableCell>
+                                <TableCell></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -47,7 +52,13 @@ const Bugs = ({classes,...props}) => {
                                         <TableCell>{record.title}</TableCell>
                                         <TableCell>{record.priority}</TableCell>
                                         <TableCell>{record.summary}</TableCell>
-
+                                        <TableCell>
+                                            <ButtonGroup varian="text">
+                                                <Button><EditIcon color = "primary" 
+                                                onClick={() => { setCurrentId (record.id)}}/></Button>
+                                                <Button><DeleteIcon color = "secondary" /></Button>
+                                            </ButtonGroup>
+                                        </TableCell>
                                     </TableRow>)
                                 })
                             }

@@ -22,7 +22,7 @@ export const bug = (state = initialState,action) =>{
                 case ACTION_TYPE.UPDATE:
                     return {
                         ...state,
-                        list: state.list.map(x => x.id == ACTION_TYPE.payload.id ? action.payload : x)
+                        list: state.list.map(x => x.id == action.payload.id ? action.payload : x)
                     }
 
 
