@@ -15,7 +15,6 @@ export const fetchAll = () =>  dispatch =>{
     api.bug().fetchAll()
     .then(
         response => {
-            console.log(response)
         dispatch({
             type:ACTION_TYPE.FETCH_ALL,
             payload: response.data
@@ -41,7 +40,7 @@ export const create = (data, onSuccess) => dispatch => {
 }
 
 export const update = (id, data, onSuccess) => dispatch => {
-    api.bug().update()
+    api.bug().update(id, data)
     .then (response => {
         dispatch({
             type:ACTION_TYPE.UPDATE,

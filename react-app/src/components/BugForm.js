@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Grid, TextField, withStyles, FormControl, Select, InputLabel, MenuItem, Button, FormHelperText } from "@material-ui/core"
 import useForm from "./useForm"
 import { connect } from 'react-redux'
 import * as actions from "../actions/bug"
-
+import { useToasts } from "react-toast-notifications"
 
 
 const styles = theme => ({
@@ -29,7 +29,13 @@ const initialFieldValues = {
 
 }
 
+
+
+
 const BugForm = ({classes, ...props}) => {
+
+    const { addToast } = useToasts()
+
 
     const validate = (fieldValues = values) => {
         let temp = {}
@@ -54,15 +60,32 @@ const BugForm = ({classes, ...props}) => {
         setValues,
        errors,
        setErrors,
-        handleInputChange
+        handleInputChange, 
+        resetForm,
     } = useForm(initialFieldValues, validate)
 
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()) {
-           props.createBug(values, () => {window.alert('Bug added')})
+            const onSuccess = () => resetForm()
+            if(props.currentId==0)
+           //props.createBug(values, () => {window.alert('Bug added')})
+           props.createBug(values, onSuccess,addToast("Bug added", {appearance:'success'}))
+           else
+           props.updateBug(props.currentId, values, onSuccess, addToast("Bug updated", {appearance:'success'}))
         }
+        
+
     }
+
+
+    useEffect(() => {
+        if (props.currentId)
+        setValues({
+            ...props.bugList.find(x => x.id == props.currentId)
+        })
+        setErrors([])
+    },[props.currentId])
 
 
 
@@ -118,7 +141,8 @@ const BugForm = ({classes, ...props}) => {
 
                         <Button
                         variant = "contained"
-                        type = "rest"
+                        type = "reset"
+                        onClick={resetForm}
                         className={classes.smMargin}>
                             Reset
                         </Button>
