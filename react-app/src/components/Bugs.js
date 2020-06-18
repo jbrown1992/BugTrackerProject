@@ -46,7 +46,9 @@ const Bugs = ({classes,...props}) => {
                                 <TableRow>
                                 <TableCell>Id</TableCell>
                                 <TableCell>Title</TableCell>
+                                <TableCell>Status</TableCell>
                                 <TableCell>Priority</TableCell>
+                                <TableCell>Assingee</TableCell>
                                 <TableCell>Summary</TableCell>
                                 <TableCell></TableCell>
                                 </TableRow>
@@ -57,8 +59,11 @@ const Bugs = ({classes,...props}) => {
                                     return (<TableRow key = {index} hover>
                                         <TableCell>{record.id}</TableCell>
                                         <TableCell>{record.title}</TableCell>
+                                        <TableCell>{record.status}</TableCell>
                                         <TableCell>{record.priority}</TableCell>
+                                        <TableCell>{record.assingee}</TableCell>
                                         <TableCell>{record.summary}</TableCell>
+
                                         <TableCell>
                                             <ButtonGroup varian="text">
                                                 <Button><EditIcon color = "primary" 

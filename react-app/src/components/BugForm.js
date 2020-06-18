@@ -25,7 +25,8 @@ const styles = theme => ({
 const initialFieldValues = {
     title: '',
     priority: '',
-    summary: ''
+    summary: '',
+    status : 'Open'
 
 }
 
@@ -114,7 +115,7 @@ const BugForm = ({classes, ...props}) => {
                             onChange = {handleInputChange}>
                                 <MenuItem value = "">Select Prority</MenuItem>
                                 <MenuItem value = "Blocker">Blocker</MenuItem>
-                                <MenuItem value = "Critial">Critial</MenuItem>
+                                <MenuItem value = "Critical">Critical</MenuItem>
                                 <MenuItem value = "Major">Major</MenuItem>
                                 <MenuItem value = "Minor">Minor</MenuItem>
                                 <MenuItem value = "Trivial">Trivial</MenuItem>
