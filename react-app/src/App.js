@@ -6,13 +6,15 @@ import { Provider } from "react-redux"
 import Bugs from './components/Bugs';
 import { Container } from "@material-ui/core"
 import { ToastProvider } from "react-toast-notifications"
-
+import { Header } from './components/Header.js'
+ 
 function App() {
   return (
     <Provider store = {store}>
       <ToastProvider autoDismiss= {true}>
       <Container maxWidth = "xl">
-      <Bugs />
+        <Header />
+        <Bugs />
 
          </Container>
          </ToastProvider>

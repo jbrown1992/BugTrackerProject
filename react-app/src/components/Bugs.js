@@ -6,6 +6,7 @@ import  BugForm  from "./BugForm"
 import EditIcon from "@material-ui/icons/Edit"
 import DeleteIcon from "@material-ui/icons/Delete"
 import { useToasts } from "react-toast-notifications"
+import PriorityChart from "./PriorityChart"
 
 
 const styles = theme => ({
@@ -84,6 +85,13 @@ const Bugs = ({classes,...props}) => {
     
     
     
+        </Grid>
+
+        <Grid container>
+        <Grid item xs = {6}>
+        <PriorityChart bugsList={props.bugList}/>
+
+        </Grid>                      
         </Grid>
     </Paper>
     );
